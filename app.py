@@ -11,27 +11,26 @@ from streamlit_folium import st_folium
 st.set_page_config(page_title="ChivoFast Rutas", layout="wide")
 st.title("🚚 Optimización de Rutas - ChivoFast")
 
-# API de OpenRouteService (consigue tu API Key gratis en https://openrouteservice.org)
+# API de OpenRouteService (usa tu propia API Key)
 API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjkzOTM1M2FmZGEyODQ4MjQ4MjQ1ZDQ2NTg4YmRiODhhIiwiaCI6Im11cm11cjY0In0="
 client = openrouteservice.Client(key=API_KEY)
 
 # ===============================
 # CARGA DE DATOS DESDE GITHUB
 # ===============================
-url = "https://raw.githubusercontent.com/Medb935/ChivoFast-website/main/dataset_entregas.csv"
+url = "https://raw.githubusercontent.com/Medb935/ChivoFast-website/main/dataset_entregas_coords.csv"
 df = pd.read_csv(url)
-
-# Eliminar registros que no tengan lat/lng válidos
-df = df.dropna(subset=['lat', 'lng'])
-
 
 st.subheader("📊 Dataset cargado")
 st.dataframe(df.head())
 
 # Validación de columnas
-if not {'cliente_id', 'lat', 'lng'}.issubset(df.columns):
-    st.error("El CSV debe tener las columnas: cliente_id, lat, lng")
+if not {'id_entrega', 'lat', 'lng'}.issubset(df.columns):
+    st.error("El CSV debe tener las columnas: id_entrega, lat, lng")
     st.stop()
+
+# Eliminar registros sin coordenadas
+df = df.dropna(subset=['lat', 'lng'])
 
 # ===============================
 # PARÁMETROS DE LA APP
@@ -85,7 +84,7 @@ if st.button("Calcular rutas óptimas"):
                     ruta.append({"id": "Depot", "coords": coords[0]})
                 else:
                     cliente_idx = node - 1
-                    ruta.append({"id": int(df.iloc[cliente_idx]['cliente_id']), "coords": coords[node]})
+                    ruta.append({"id": int(df.iloc[cliente_idx]['id_entrega']), "coords": coords[node]})
                 index = solution.Value(routing.NextVar(index))
             rutas.append(ruta)
 
@@ -115,3 +114,4 @@ if st.button("Calcular rutas óptimas"):
 
     else:
         st.error("No se encontró solución óptima.")
+
