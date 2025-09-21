@@ -18,7 +18,7 @@ client = openrouteservice.Client(key=API_KEY)
 # ===============================
 # CARGA DE DATOS DESDE GITHUB
 # ===============================
-url = "https://raw.githubusercontent.com/Medb935/ChivoFast-website/main/dataset_entregas_coords.csv"
+url = "https://raw.githubusercontent.com/Medb935/ChivoFast-website/main/dataset_entregas.csv"
 df = pd.read_csv(url)
 
 st.subheader("📊 Dataset cargado")
