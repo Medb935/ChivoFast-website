@@ -1,0 +1,6 @@
+pip install streamlit pandas folium openrouteservice ortools
+
+import streamlit as st
+
+st.title("🚚 Proyecto ChivoFast")
+st.write("Mi primera app con Streamlit en GitHub")
