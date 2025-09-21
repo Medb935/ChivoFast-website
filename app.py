@@ -21,6 +21,10 @@ client = openrouteservice.Client(key=API_KEY)
 url = "https://raw.githubusercontent.com/Medb935/ChivoFast-website/main/dataset_entregas.csv"
 df = pd.read_csv(url)
 
+# Eliminar registros que no tengan lat/lng válidos
+df = df.dropna(subset=['lat', 'lng'])
+
+
 st.subheader("📊 Dataset cargado")
 st.dataframe(df.head())
 
