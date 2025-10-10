@@ -1,6 +1,8 @@
 streamlit
+sqlalchemy
+psycopg2-binary
 pandas
-openrouteservice
-ortools
+openpyxl
+plotly
 folium
 streamlit-folium
